@@ -3,10 +3,10 @@ using System.Collections;
 
 public class CollisionHandler : MonoBehaviour {
 	// Variables
+	private int ourRacePosition;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PickupBoxDisplayImage thisPickupBox;
-	private int ourRacePosition;
 	public static PickupBoxManager.pickupBoxKind PICKUPBOX_TYPE;
 
 	
