@@ -15,6 +15,8 @@ public class Player : MonoBehaviour {
 	private AudioSource engineAudioSource;
 	private Shooter shooter;
 	private Animator anim;
+	private Player4RightSideCollider player4RightSideCollider;
+	private Player4LeftSideCollider player4LeftSideCollider;
 	private bool rayCastLeftResult;
 	private bool OkToMoveLeft;
 	private bool OkToMoveRight;
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour {
 		DetermineLanePosition();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		shooter = GameObject.FindObjectOfType<Shooter>();
+		player4RightSideCollider = GameObject.FindObjectOfType<Player4RightSideCollider>();
+		player4LeftSideCollider = GameObject.FindObjectOfType<Player4LeftSideCollider>();
 		engineAudioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		desiredXPos = transform.position.x;				//desiredXPos isn't assigned a value until we push left or right, need default value
@@ -42,7 +46,8 @@ public class Player : MonoBehaviour {
 		if(raceManager.raceHasBegun){					//Only true when race has begun
 			totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
 			ChooseGear();
-			DetectArrowKey();			
+			DetectArrowKey();	
+			DisableTurnIfNeighborExists();		
 			MovePlayerZAxis();
 			MovePlayerXAxis();
 			anim.SetBool("isRacingBool", true);			// Starts moving tires and vertical bounce is less
@@ -98,6 +103,21 @@ public class Player : MonoBehaviour {
 			rightArrow = true;
 			leftArrow = false;
 		}
+	}//End
+
+
+	private void DisableTurnIfNeighborExists(){
+		//Detect right side
+		if(rightArrow && !player4RightSideCollider.RightSideClear){				//Basically if statement = turn right but there's someone there then deny right turn
+			rightArrow = false;													//Disable right turn
+			BroadcastMessage("PlayDeniedSound");								//Play denied sound
+		}
+		//Detect left side
+		if(leftArrow && !player4LeftSideCollider.LeftSideClear){
+			leftArrow = false;
+			BroadcastMessage("PlayDeniedSound");
+		}
+
 	}//End
 
 
