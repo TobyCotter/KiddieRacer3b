@@ -26,9 +26,6 @@ public class Player : MonoBehaviour {
 	[Range(0f,30.0f)]
 	public float LaneLerpSpeed;
 	public float zGear = 1.1f;							// Which gear the player car is in, 1.1 = 1st, 1.2 = 2nd
-	//public int origLaneNumber;
-	private RaycastHit rearHit;
-	private RaycastHit frontHit;
 
 
 	void Start () {
@@ -134,43 +131,5 @@ public class Player : MonoBehaviour {
 		desiredXPos = Mathf.Lerp(transform.position.x, lane_XValue[myLanePos-1], (LaneLerpSpeed * Time.deltaTime));			
 		transform.position = new Vector3(desiredXPos, transform.position.y, transform.position.z);						//Move our car in the x axis only
 	}//End
-
-
-	private void RayCastLeft(){
-		//Check to the left for colliders, if false - move to the left, if true: do we have projectile? Y=fire, N=nothing
-		bool rearRayHitResult, frontRayHitResult;
-		Vector3 frontRayPos = new Vector3(transform.position.x, transform.position.y, (transform.position.z + 1.3f));
-		Vector3 rearRayPos = new Vector3(transform.position.x, transform.position.y, (transform.position.z - 0.5f));
-
-		rearRayHitResult = Physics.Raycast(rearRayPos, Vector3.left, out rearHit, 2.8f);
-		frontRayHitResult = Physics.Raycast(frontRayPos, Vector3.left, out frontHit, 2.8f);
-		if(rearRayHitResult == false && frontRayHitResult == false){
-			//Since nothing is to the left of us, we can move
-			OkToMoveLeft = true;
-			Debug.Log("We just made OK move left to true");
-		}else{
-			leftArrow = false;
-		}
-	}//End Raycast
-
-
-	private void RayCastRight(){
-		//Check to the right for colliders, if false - move to the right, if true: do we have projectile? Y=fire, N=nothing
-		bool rearRayHitResult, frontRayHitResult;
-		Vector3 frontRayPos = new Vector3(transform.position.x, transform.position.y, (transform.position.z + 1.3f));
-		Vector3 rearRayPos = new Vector3(transform.position.x, transform.position.y, (transform.position.z - 0.5f));
-
-		rearRayHitResult = Physics.Raycast(rearRayPos, Vector3.right, out rearHit, 2.8f);
-		frontRayHitResult = Physics.Raycast(frontRayPos, Vector3.right, out frontHit, 2.8f);
-		if(rearRayHitResult == false && frontRayHitResult == false){
-			//Since nothing is to the right of us, we can move
-			OkToMoveRight = true;
-			Debug.Log("We just made OK move right to true");
-		}else{
-			rightArrow = false;
-		}
-		Debug.Log("Front Right raycast: " + frontRayHitResult);
-		Debug.Log("Rear right raycast: " + rearRayHitResult);
-	}//End Raycast
 }//End Class
 
