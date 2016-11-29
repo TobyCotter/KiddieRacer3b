@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Shooter : MonoBehaviour {
 	// Variables
+	private CollisionHandler collisionHandler;
 	private int numConeDropped = 0;
 	private float speedBurstTime = 2.0f;
 	private GameObject bulletParent;
@@ -20,6 +21,7 @@ public class Shooter : MonoBehaviour {
 
 	
 	void Start () {
+		collisionHandler = GetComponent<CollisionHandler>();
 		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage> ();
 		afterBurnerParticle = GameObject.FindGameObjectWithTag("AfterBurner");
 		afterBurnerParticle.SetActive(false);
@@ -41,17 +43,17 @@ public class Shooter : MonoBehaviour {
 	void Update (){
 		if(Input.GetKeyDown(KeyCode.Space)){
 			// Let's fire our pickupBox weapon
-			if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.PROJECTILE){
+			if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.PROJECTILE){
 				// Launch Projectile
 				InstantiateBullet();											//And sends it flying
 				PlayShootSound();												
 				ResetPickupBox();												//Removes projectile from display
-			}else if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.CONE){
+			}else if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.CONE){
 				// Drop Cones
 				numConeDropped = 0;												//Reset the number of cones that have been dropped
 				InvokeRepeating("DropCone", .000001f, coneDropSpeed);			//Drops a cone immediately and then waits one second
 				ResetPickupBox();												//Removes cone from display
-			}else if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.SPEED){
+			}else if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.SPEED){
 				// Speed burst
 				ActivateSpeedBurst();
 				ResetPickupBox();												//Removes speed icon from display
@@ -104,7 +106,7 @@ public class Shooter : MonoBehaviour {
 
 
 	private void ResetPickupBox(){
-		CollisionHandler.PICKUPBOX_TYPE = PickupBoxManager.pickupBoxKind.EMPTY;	// This empties the variable
-		pickupBoxDisplayImage.SetPickupBoxImage();										// This clears the image from our canvas
+		collisionHandler.pickupBoxType = PickupBoxManager.pickupBoxKind.EMPTY;	// This empties the variable
+		pickupBoxDisplayImage.SetPickupBoxImage((int)collisionHandler.pickupBoxType);	//TODO change 3 to variable									// This clears the image from our canvas
 	}// End
 }

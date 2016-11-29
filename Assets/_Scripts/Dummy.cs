@@ -9,8 +9,6 @@ public class Dummy : MonoBehaviour {
 	public float playerSpeedOffset;
 	public float zGear;
 
-	//private bool firstTimeTest = false;
-
 
 	void Start () {
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
@@ -49,7 +47,7 @@ public class Dummy : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider collider) {   
-		Debug.Log("Dummy entered trigger: " + collider);
+		
 	  
 //		if(collider.GetComponent<Dummy>()){    								//If we collided with Dummy player, reset the dummy collision timer       
 //        	collider.GetComponent<Dummy>().ResetCollisionTimer();

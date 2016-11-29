@@ -7,7 +7,7 @@ using System.Collections;
 public class PickupBoxDisplayImage : MonoBehaviour {
 	// Variables
 	private Image imageComponent;
-	private CollisionHandler collisionHandler;
+	//private CollisionHandler collisionHandler;
 	public Sprite cone;
 	public Sprite lightning;
 	public Sprite projectile;			//public domain pixbay
@@ -15,7 +15,7 @@ public class PickupBoxDisplayImage : MonoBehaviour {
 
 	void Start () {
 		imageComponent = GetComponent<Image>();
-		collisionHandler = GameObject.FindObjectOfType<CollisionHandler>();
+		//collisionHandler = GameObject.FindObjectOfType<CollisionHandler>();
 	}
 
 
@@ -24,17 +24,16 @@ public class PickupBoxDisplayImage : MonoBehaviour {
 	}
 
 
-	public void SetPickupBoxImage (){
+	public void SetPickupBoxImage (int pickupBoxNum){
 		// Sets the canvas image to cone, projectile, speed, or empty
-		if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.CONE){
+		if(pickupBoxNum == 0){
 			imageComponent.sprite = cone;
-		}else if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.PROJECTILE){
+		}else if(pickupBoxNum == 1){
 			imageComponent.sprite = projectile;
-		}else if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.SPEED){
+		}else if(pickupBoxNum == 2){
 			imageComponent.sprite = lightning;
-		}else if(CollisionHandler.PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.EMPTY){
+		}else{
 			imageComponent.sprite = none;
 		}
 	}// End
-
 }

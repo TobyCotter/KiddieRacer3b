@@ -3,11 +3,12 @@ using System.Collections;
 
 public class CollisionHandler : MonoBehaviour {
 	// Variables
-	private int ourRacePosition;
+	private int player4RacePos;
+	public bool user;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PickupBoxDisplayImage pickupBoxDisplayImage;
-	public static PickupBoxManager.pickupBoxKind PICKUPBOX_TYPE;
+	public PickupBoxManager.pickupBoxKind pickupBoxType;
 
 	
 	void Start () {
@@ -22,28 +23,33 @@ public class CollisionHandler : MonoBehaviour {
 	}
 
 
-	void OnTriggerEnter(Collider collider) {   
-		// Collides with other player's car
-		if(collider.GetComponent<Dummy>()){    									//If we collided with Dummy player, reset the dummy collision timer       
-        	collider.GetComponent<Dummy>().ResetCollisionTimer();
-        }
+	void OnTriggerEnter(Collider collider) {  
+		Debug.Log("We entered the collisionHandler's trigger");
 
         // Collides with pickupBox
         if(collider.CompareTag("PickupBox")){
         	HitPickupBox();
+        	Debug.Log("We hit a pickup box");
         }
-
-        if(collider.CompareTag("GiftBox")){
-        	//collider.GetComponent<GiftSpawner>().giftBoxIndex
-        }//TODO something above here
     }// End OnTriggerEnter
 
 
     private void HitPickupBox(){
+    	int fakeRacePosVal;
     	//Play pickupBox sound, determine what type of pickupbox we get, set image on canvas
-		BroadcastMessage("PlayPickupBoxSound");
-		ourRacePosition = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
-		PICKUPBOX_TYPE = pickupBoxManager.DecideWhichPickupBox(ourRacePosition);		// pickupBoxType is a static that holds the value of our current pickupbox
-		pickupBoxDisplayImage.SetPickupBoxImage();										
+    	if(user){																			//CollisionHandler is used on both the user and dummy cars, we don't want to change the image and other things on the dummy cars
+			BroadcastMessage("PlayPickupBoxSound");
+			player4RacePos = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
+			pickupBoxType = pickupBoxManager.DecideWhichPickupBox(player4RacePos);			// pickupBoxType is a static that holds the value of our current pickupbox
+			pickupBoxDisplayImage.SetPickupBoxImage((int)pickupBoxType);	
+		}else{
+			player4RacePos = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
+			if(player4RacePos == 1){														// If player4 is in first, we don't want to give the dummies cones constantly.  We will use a strategy for #3 which is slightly more speed and projectiles
+				fakeRacePosVal = 3;
+			}else{
+				fakeRacePosVal = 2;
+			}
+			pickupBoxType = pickupBoxManager.DecideWhichPickupBox(fakeRacePosVal);			// pickupBoxType is a static that holds the value of our current pickupbox
+		}									
     }// End
 }
