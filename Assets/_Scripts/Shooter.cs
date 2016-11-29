@@ -8,7 +8,7 @@ public class Shooter : MonoBehaviour {
 	private GameObject bulletParent;
 	private GameObject coneParent;
 	private GameObject afterBurnerParticle;
-	private PickupBoxDisplayImage thisPickUpBox;
+	private PickupBoxDisplayImage pickupBoxDisplayImage;
 	public Rigidbody bulletPrefab;
 	public Rigidbody conePrefab;
 	public Transform gun;
@@ -20,7 +20,7 @@ public class Shooter : MonoBehaviour {
 
 	
 	void Start () {
-		thisPickUpBox = GameObject.FindObjectOfType<PickupBoxDisplayImage> ();
+		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage> ();
 		afterBurnerParticle = GameObject.FindGameObjectWithTag("AfterBurner");
 		afterBurnerParticle.SetActive(false);
 		speedBurst = 1.0f;
@@ -105,6 +105,6 @@ public class Shooter : MonoBehaviour {
 
 	private void ResetPickupBox(){
 		CollisionHandler.PICKUPBOX_TYPE = PickupBoxManager.pickupBoxKind.EMPTY;	// This empties the variable
-		thisPickUpBox.SetPickupBoxImage();										// This clears the image from our canvas
+		pickupBoxDisplayImage.SetPickupBoxImage();										// This clears the image from our canvas
 	}// End
 }

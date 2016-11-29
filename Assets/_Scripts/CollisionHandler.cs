@@ -6,14 +6,14 @@ public class CollisionHandler : MonoBehaviour {
 	private int ourRacePosition;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
-	private PickupBoxDisplayImage thisPickupBox;
+	private PickupBoxDisplayImage pickupBoxDisplayImage;
 	public static PickupBoxManager.pickupBoxKind PICKUPBOX_TYPE;
 
 	
 	void Start () {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
-		thisPickupBox = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
+		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
 	}
 	
 
@@ -32,6 +32,10 @@ public class CollisionHandler : MonoBehaviour {
         if(collider.CompareTag("PickupBox")){
         	HitPickupBox();
         }
+
+        if(collider.CompareTag("GiftBox")){
+        	//collider.GetComponent<GiftSpawner>().giftBoxIndex
+        }//TODO something above here
     }// End OnTriggerEnter
 
 
@@ -40,15 +44,6 @@ public class CollisionHandler : MonoBehaviour {
 		BroadcastMessage("PlayPickupBoxSound");
 		ourRacePosition = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
 		PICKUPBOX_TYPE = pickupBoxManager.DecideWhichPickupBox(ourRacePosition);		// pickupBoxType is a static that holds the value of our current pickupbox
-
-		if(PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.CONE){
-			thisPickupBox.SetPickupBoxImage();
-		}else if(PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.PROJECTILE){
-			thisPickupBox.SetPickupBoxImage();
-		}else if(PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.SPEED){
-			thisPickupBox.SetPickupBoxImage();
-		}else if(PICKUPBOX_TYPE == PickupBoxManager.pickupBoxKind.EMPTY){
-			thisPickupBox.SetPickupBoxImage();
-		}
+		pickupBoxDisplayImage.SetPickupBoxImage();										
     }// End
 }

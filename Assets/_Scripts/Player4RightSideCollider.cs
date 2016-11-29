@@ -8,7 +8,6 @@ public class Player4RightSideCollider : MonoBehaviour {
 
 	void OnTriggerEnter (Collider collider){
 		if(collider.CompareTag("SideCol")){
-			Debug.Log("Right side has collided");
 			RightSideClear = false;
 		}
 	}//End
@@ -16,7 +15,6 @@ public class Player4RightSideCollider : MonoBehaviour {
 
 	void OnTriggerExit	(Collider collider){
 		if(collider.CompareTag("SideCol")){
-			Debug.Log("We are no longer hitting neighbor on right");
 			RightSideClear = true;
 		}
 	}//End
