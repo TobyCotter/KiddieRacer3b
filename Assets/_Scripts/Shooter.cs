@@ -41,9 +41,20 @@ public class Shooter : MonoBehaviour {
 	
 
 	void Update (){
+		CheckIfUserWantsToFireWeapon();
+	}// End
+
+
+	private void CheckIfUserWantsToFireWeapon(){
 		if(Input.GetKeyDown(KeyCode.Space)){
-			// Let's fire our pickupBox weapon
-			if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.PROJECTILE){
+			// Let's fire our pickupBox weapon, used only in windows based app
+			FireWeapon();
+		}
+	}//End
+
+
+	public void FireWeapon(){
+		if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.PROJECTILE){
 				// Launch Projectile
 				InstantiateBullet();											//And sends it flying
 				PlayShootSound();												
@@ -58,8 +69,7 @@ public class Shooter : MonoBehaviour {
 				ActivateSpeedBurst();
 				ResetPickupBox();												//Removes speed icon from display
 			}
-		}
-	}// End
+	}//End
 
 
 	private void ActivateSpeedBurst(){

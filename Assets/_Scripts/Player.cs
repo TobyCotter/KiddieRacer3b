@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
 	private Animator anim;
 	private Player4RightSideCollider player4RightSideCollider;
 	private Player4LeftSideCollider player4LeftSideCollider;
+	private CollisionHandler collisionHandler;
 	private bool rayCastLeftResult;
 	private bool OkToMoveLeft;
 	private bool OkToMoveRight;
@@ -38,19 +39,20 @@ public class Player : MonoBehaviour {
 		player4LeftSideCollider = GameObject.FindObjectOfType<Player4LeftSideCollider>();
 		engineAudioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
+		collisionHandler = GetComponent<CollisionHandler>();
 		desiredXPos = transform.position.x;				//desiredXPos isn't assigned a value until we push left or right, need default value
 	}
 	
 
 	void Update () {
-		if(raceManager.raceHasBegun){					//Only true when race has begun
-			totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
+		if(raceManager.raceHasBegun){						//Only true when race has begun
+			totalTimeSinceCollision = collisionHandler.GetTotalTimeSinceCollision();	//Returns time since collision
 			ChooseGear();
-			DetectArrowKey();	
+			DetectArrowKey();	//TODO delete later as this is only used for windows
 			DisableTurnIfNeighborExists();		
 			MovePlayerZAxis();
 			MovePlayerXAxis();
-			anim.SetBool("isRacingBool", true);			// Starts moving tires and vertical bounce is less
+			anim.SetBool("isRacingBool", true);				// Starts moving tires and vertical bounce is less
 		}
 	}// End Update
 
@@ -103,6 +105,20 @@ public class Player : MonoBehaviour {
 			rightArrow = true;
 			leftArrow = false;
 		}
+	}//End
+
+
+	public void RightTouchInputPressed(){
+		//The right panel was pressed
+		rightArrow = true;
+		leftArrow = false;
+	}//End
+
+
+	public void LeftTouchInputPressed(){
+		//The left panel was pressed
+		rightArrow = false;
+		leftArrow = true;
 	}//End
 
 

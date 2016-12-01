@@ -4,33 +4,50 @@ using System.Collections;
 public class CollisionHandler : MonoBehaviour {
 	// Variables
 	private int player4RacePos;
-	public bool user;
+	private float totalTimeSinceCollision;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PickupBoxDisplayImage pickupBoxDisplayImage;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
+	public bool user;
 
 	
 	void Start () {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
-	}
+	}//End
 	
 
 	void Update () {
-	
-	}
+		totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
+	}//End
+
+
+	public float GetTotalTimeSinceCollision(){
+		return totalTimeSinceCollision;
+	}//End
 
 
 	void OnTriggerEnter(Collider collider) {  
-		Debug.Log("We entered the collisionHandler's trigger");
-
         // Collides with pickupBox
         if(collider.CompareTag("PickupBox")){
         	HitPickupBox();
-        	Debug.Log("We hit a pickup box");
         }
+
+       	// Collides with cone
+       	if(collider.CompareTag("Debris")){
+       		totalTimeSinceCollision = 0;
+       		BroadcastMessage("PlayHitConeSound");
+       	}
+
+       	//Bullet hits us
+       	if(collider.CompareTag("Bullet")){
+       		totalTimeSinceCollision = 0;
+       		BroadcastMessage("PlayBulletHitSound");
+       		Destroy(collider.gameObject);							//Destroy bullet
+       	}
+
     }// End OnTriggerEnter
 
 
@@ -43,6 +60,7 @@ public class CollisionHandler : MonoBehaviour {
 			pickupBoxType = pickupBoxManager.DecideWhichPickupBox(player4RacePos);			// pickupBoxType is a static that holds the value of our current pickupbox
 			pickupBoxDisplayImage.SetPickupBoxImage((int)pickupBoxType);	
 		}else{
+			//Used for dummy racers
 			player4RacePos = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
 			if(player4RacePos == 1){														// If player4 is in first, we don't want to give the dummies cones constantly.  We will use a strategy for #3 which is slightly more speed and projectiles
 				fakeRacePosVal = 3;

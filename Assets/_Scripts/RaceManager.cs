@@ -5,26 +5,31 @@ using System.Linq;						// This was needed for the Orderby method
 public class RaceManager : MonoBehaviour {
 	// Variables
 	private float timeSinceStart;
+	private bool firstTimeThru = true;
 	private MusicManager musicManager;
+	private AudioSource audioSource;
 	private Racer[] sortedRacerArray;
 	public bool raceHasBegun = false;
+	public AudioClip ready;
+	public AudioClip go;
 
 
 	void Start () {
 		musicManager = GameObject.FindObjectOfType<MusicManager>();
-	}
+		audioSource = GetComponent<AudioSource>();
+	}//End
 
 
 	void Update (){
 
-	}
+	}//End
 	
 
 	void LateUpdate () {
 		if(!raceHasBegun){										// Once the race has begun we no longer need to check it (just saves computer power)
 			WaitToStartRace ();									// Starts race after a predetermined amount of time
 		}
-	}
+	}//End
 
 
 	public int FindPlayerFourRacePosition (){
@@ -44,12 +49,30 @@ public class RaceManager : MonoBehaviour {
 	private void WaitToStartRace(){
 		timeSinceStart = timeSinceStart + Time.deltaTime;
 
+		//Play ready first time thru
+		if(firstTimeThru){
+			Invoke("PlayReadySound", 1.0f);
+			firstTimeThru = false;
+		}
+
+		//Play Go and start race
 		if(timeSinceStart > 3){
 			// Start Race after time listed above!!!  BOOM!
-			raceHasBegun = true;
-			musicManager.PlayBackgroundMusic();
+			audioSource.PlayOneShot(go);
+			raceHasBegun = true;						//Will not enter this routine again once this variable is set to true
+			Invoke("PlayBackgroundMusic", 0.3f);		//Added delay so "Go" is played completely
 		}
 	}// End
+
+
+	private void PlayReadySound(){
+		audioSource.PlayOneShot(ready);
+	}//End
+
+
+	private void PlayBackgroundMusic(){
+		musicManager.PlayBackgroundMusic();
+	}//End
 }
 
 

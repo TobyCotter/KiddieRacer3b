@@ -6,20 +6,22 @@ public class Dummy : MonoBehaviour {
 	private float totalTimeSinceCollision;
 	private RaceManager raceManager;
 	private Animator anim;
+	private CollisionHandler collisionHandler;
 	public float playerSpeedOffset;
 	public float zGear;
 
 
 	void Start () {
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
+		collisionHandler = GetComponent<CollisionHandler>();
 		anim = GetComponent<Animator>();
 	}
 
 
 	void Update () {
 		if(raceManager.raceHasBegun){
-			totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
-
+			//totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
+			totalTimeSinceCollision = collisionHandler.GetTotalTimeSinceCollision();	//Returns time since collision
 			ChooseGear();
 			MovePlayerForward ();
 			//ChangeLanes();	
