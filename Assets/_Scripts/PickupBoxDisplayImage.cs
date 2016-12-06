@@ -7,7 +7,6 @@ using System.Collections;
 public class PickupBoxDisplayImage : MonoBehaviour {
 	// Variables
 	private Image imageComponent;
-	//private CollisionHandler collisionHandler;
 	public Sprite cone;
 	public Sprite lightning;
 	public Sprite projectile;			//public domain pixbay
@@ -15,7 +14,6 @@ public class PickupBoxDisplayImage : MonoBehaviour {
 
 	void Start () {
 		imageComponent = GetComponent<Image>();
-		//collisionHandler = GameObject.FindObjectOfType<CollisionHandler>();
 	}
 
 

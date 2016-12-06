@@ -10,6 +10,7 @@ public class Shooter : MonoBehaviour {
 	private GameObject coneParent;
 	private GameObject afterBurnerParticle;
 	private PickupBoxDisplayImage pickupBoxDisplayImage;
+	private CenterFireTouchInput centerFireTouchInput;
 	public Rigidbody bulletPrefab;
 	public Rigidbody conePrefab;
 	public Transform gun;
@@ -22,7 +23,8 @@ public class Shooter : MonoBehaviour {
 	
 	void Start () {
 		collisionHandler = GetComponent<CollisionHandler>();
-		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage> ();
+		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
+		centerFireTouchInput = GameObject.FindObjectOfType<CenterFireTouchInput>();
 		afterBurnerParticle = GameObject.FindGameObjectWithTag("AfterBurner");
 		afterBurnerParticle.SetActive(false);
 		speedBurst = 1.0f;
@@ -54,6 +56,10 @@ public class Shooter : MonoBehaviour {
 
 
 	public void FireWeapon(){
+		//Display fire button
+		centerFireTouchInput.ShowFireButtonBriefly();
+
+		//Take action
 		if(collisionHandler.pickupBoxType == PickupBoxManager.pickupBoxKind.PROJECTILE){
 				// Launch Projectile
 				InstantiateBullet();											//And sends it flying

@@ -18,6 +18,8 @@ public class Player : MonoBehaviour {
 	private Player4RightSideCollider player4RightSideCollider;
 	private Player4LeftSideCollider player4LeftSideCollider;
 	private CollisionHandler collisionHandler;
+	private LeftTouchInput leftTouchInput;
+	private RightTouchInput rightTouchInput;
 	private bool rayCastLeftResult;
 	private bool OkToMoveLeft;
 	private bool OkToMoveRight;
@@ -37,11 +39,13 @@ public class Player : MonoBehaviour {
 		shooter = GameObject.FindObjectOfType<Shooter>();
 		player4RightSideCollider = GameObject.FindObjectOfType<Player4RightSideCollider>();
 		player4LeftSideCollider = GameObject.FindObjectOfType<Player4LeftSideCollider>();
+		leftTouchInput = GameObject.FindObjectOfType<LeftTouchInput>();
+		rightTouchInput = GameObject.FindObjectOfType<RightTouchInput>();
 		engineAudioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		collisionHandler = GetComponent<CollisionHandler>();
 		desiredXPos = transform.position.x;				//desiredXPos isn't assigned a value until we push left or right, need default value
-	}
+	}//End Start
 	
 
 	void Update () {
@@ -97,13 +101,11 @@ public class Player : MonoBehaviour {
 
 	private void DetectArrowKey (){
 		if(Input.GetKeyDown(KeyCode.LeftArrow)){
-			leftArrow = true;
-			rightArrow = false;
+			LeftTouchInputPressed();
 		}
 
 		if(Input.GetKeyDown(KeyCode.RightArrow)){
-			rightArrow = true;
-			leftArrow = false;
+			RightTouchInputPressed();
 		}
 	}//End
 
@@ -112,6 +114,7 @@ public class Player : MonoBehaviour {
 		//The right panel was pressed
 		rightArrow = true;
 		leftArrow = false;
+		rightTouchInput.ShowRightButtonBriefly();
 	}//End
 
 
@@ -119,6 +122,7 @@ public class Player : MonoBehaviour {
 		//The left panel was pressed
 		rightArrow = false;
 		leftArrow = true;
+		leftTouchInput.ShowLeftButtonBriefly();
 	}//End
 
 
