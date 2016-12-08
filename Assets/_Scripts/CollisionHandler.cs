@@ -3,11 +3,13 @@ using System.Collections;
 
 public class CollisionHandler : MonoBehaviour {
 	// Variables
+	private int iAmThisPlayer = 0;
 	private int player4RacePos;
 	private float totalTimeSinceCollision;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PickupBoxDisplayImage pickupBoxDisplayImage;
+	public int ourFinishPos;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
 	public bool user;
 
@@ -16,6 +18,16 @@ public class CollisionHandler : MonoBehaviour {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
+
+		if(this.CompareTag("Player1")){
+			iAmThisPlayer = 1;
+		}else if(this.CompareTag("Player2")){
+			iAmThisPlayer = 2;
+		}else if(this.CompareTag("Player3")){
+			iAmThisPlayer = 3;
+		}else if (this.CompareTag("Player4")) {
+			iAmThisPlayer = 4;
+		}
 	}//End
 	
 
@@ -45,9 +57,15 @@ public class CollisionHandler : MonoBehaviour {
        	if(collider.CompareTag("Bullet")){
        		totalTimeSinceCollision = 0;
        		BroadcastMessage("PlayBulletHitSound");
-       		Destroy(collider.gameObject);							//Destroy bullet
+       		Destroy(collider.gameObject);									//Destroy bullet
        	}
 
+       	//Hit FinishLine
+       	if(collider.CompareTag("FinishLine")){
+       		ourFinishPos = FinishLine.FINISH_POSITION;
+       		FinishLine.FINISH_POSITION++;
+       		raceManager.finalRaceOrder[ourFinishPos-1] = iAmThisPlayer;		//Reports this player's position to the raceManager
+       	}
     }// End OnTriggerEnter
 
 

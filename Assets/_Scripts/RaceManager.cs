@@ -4,11 +4,16 @@ using System.Linq;						// This was needed for the Orderby method
 
 public class RaceManager : MonoBehaviour {
 	// Variables
+	private int youFinishedThisPlace;
 	private float timeSinceStart;
 	private bool firstTimeThru = true;
 	private MusicManager musicManager;
 	private AudioSource audioSource;
+	private FinalFinishText finalFinishText;
 	private Racer[] sortedRacerArray;
+	private bool firstTimeThruThis = true;
+	private FinalFinishImage finalFinishImage;
+	public int[] finalRaceOrder = new int[4];
 	public bool raceHasBegun = false;
 	public AudioClip ready;
 	public AudioClip go;
@@ -17,11 +22,25 @@ public class RaceManager : MonoBehaviour {
 	void Start () {
 		musicManager = GameObject.FindObjectOfType<MusicManager>();
 		audioSource = GetComponent<AudioSource>();
+		finalFinishImage = GameObject.FindObjectOfType<FinalFinishImage>();
+		finalFinishText = GameObject.FindObjectOfType<FinalFinishText>();
 	}//End
 
 
 	void Update (){
+		if(FinishLine.FINISH_POSITION == 4 && firstTimeThruThis == true){//TODO change this to 5 as right now we only have 3 players racing
+			//**** All 4 players have crossed the finish line @ this point ****
 
+			//Get player4's finish position (and the total finish order)
+			GetFinalFinishOrder ();
+
+			//Display finish position image/text for player 4
+			finalFinishText.DisplayFinishText(youFinishedThisPlace);
+			finalFinishImage.DisplayFinishImage(youFinishedThisPlace);
+
+			//Only pass thru this once
+			firstTimeThruThis = false;							//We only want to report the finish order once
+		}//End if
 	}//End
 	
 
@@ -73,7 +92,17 @@ public class RaceManager : MonoBehaviour {
 	private void PlayBackgroundMusic(){
 		musicManager.PlayBackgroundMusic();
 	}//End
-}
+
+	void GetFinalFinishOrder ()
+	{
+		for (int i = 0; i < finalRaceOrder.Length; i++) {
+			//finalRaceOrder variable is populated by other scripts
+			if (finalRaceOrder [i] == 4) {
+				youFinishedThisPlace = i + 1;
+			}//End if
+		}//End for
+	}//End ()
+}//End class
 
 
 
