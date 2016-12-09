@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
 	private bool rayCastLeftResult;
 	private bool OkToMoveLeft;
 	private bool OkToMoveRight;
+	private float finishLineLerpSpeed = 1.0f;
+	private float sourceSpeedFactor = 1.0f;
 
 	[Tooltip("Speed player moves in Z")]
 	[Range(0f,100f)]
@@ -149,10 +151,19 @@ public class Player : MonoBehaviour {
 		//Purpose of the following is to lerp the rocket speed burst
 		newSpeedMultiplier = shooter.speedBurst;
 		oldSpeedMultiplier = speedBurstMultiplier;
-		speedBurstMultiplier = Mathf.Lerp(oldSpeedMultiplier, newSpeedMultiplier, .8f);
+		speedBurstMultiplier = Mathf.Lerp(oldSpeedMultiplier, newSpeedMultiplier, 0.8f);
+
+		//Purpose of the following is once we cross the finish line we should lerp to stop
+		if(collisionHandler.playerCrossedFinishLine){
+			sourceSpeedFactor = finishLineLerpSpeed;
+			finishLineLerpSpeed = Mathf.Lerp(sourceSpeedFactor, 0.0f, 0.05f);
+		}
 
 		//Calculate total Z speed
-		zSpeed = (playerSpeedOffset * Time.deltaTime) * zGear * speedBurstMultiplier;
+		//zGear is determined by the amount of time since collision, the longer the time the higher the gear
+		//speedBurstMultiplier is a small burst of speed given when we execute a speed pickupBox
+		//Finish line speed is once we cross the finish line we will lerp our speed to zero which will null all of the other variables
+		zSpeed = (playerSpeedOffset * Time.deltaTime) * zGear * speedBurstMultiplier * finishLineLerpSpeed;
 
 		//Move Player in Z axis
 		transform.Translate(0,0,zSpeed);

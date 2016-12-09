@@ -12,6 +12,7 @@ public class CollisionHandler : MonoBehaviour {
 	public int ourFinishPos;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
 	public bool user;
+	public bool playerCrossedFinishLine = false;
 
 	
 	void Start () {
@@ -50,13 +51,17 @@ public class CollisionHandler : MonoBehaviour {
        	// Collides with cone
        	if(collider.CompareTag("Debris")){
        		totalTimeSinceCollision = 0;
-       		BroadcastMessage("PlayHitConeSound");
+       		if(user){
+       			BroadcastMessage("PlayHitConeSound");
+       		}
        	}
 
        	//Bullet hits us
        	if(collider.CompareTag("Bullet")){
        		totalTimeSinceCollision = 0;
-       		BroadcastMessage("PlayBulletHitSound");
+       		if(user){
+       			BroadcastMessage("PlayBulletHitSound");
+       		}
        		Destroy(collider.gameObject);									//Destroy bullet
        	}
 
@@ -65,6 +70,7 @@ public class CollisionHandler : MonoBehaviour {
        		ourFinishPos = FinishLine.FINISH_POSITION;
        		FinishLine.FINISH_POSITION++;
        		raceManager.finalRaceOrder[ourFinishPos-1] = iAmThisPlayer;		//Reports this player's position to the raceManager
+       		playerCrossedFinishLine = true;									//HACK when we play again we will need to reset this OR reload scen
        	}
     }// End OnTriggerEnter
 
