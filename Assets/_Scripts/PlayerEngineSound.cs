@@ -46,7 +46,7 @@ public class PlayerEngineSound : MonoBehaviour {
 	}// End PlayIdle
 
 
-	private void PlayEngineGoSound(bool playMe){
+	public void PlayEngineGoSound(bool playMe){
 		if(playMe){
 			audioSource.clip = engineGoSound;
 			audioSource.loop = true;

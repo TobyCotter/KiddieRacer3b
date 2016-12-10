@@ -9,6 +9,7 @@ public class CollisionHandler : MonoBehaviour {
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PickupBoxDisplayImage pickupBoxDisplayImage;
+	private PlayerEngineSound playerEngineSound;
 	public int ourFinishPos;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
 	public bool user;
@@ -19,6 +20,7 @@ public class CollisionHandler : MonoBehaviour {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
+		playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
 
 		if(this.CompareTag("Player1")){
 			iAmThisPlayer = 1;
@@ -71,6 +73,9 @@ public class CollisionHandler : MonoBehaviour {
        		FinishLine.FINISH_POSITION++;
        		raceManager.finalRaceOrder[ourFinishPos-1] = iAmThisPlayer;		//Reports this player's position to the raceManager
        		playerCrossedFinishLine = true;									//HACK when we play again we will need to reset this OR reload scen
+       		if(user){														//The engine sound is only playing on the Player (user) so only need to stop the engine sound on the user
+				playerEngineSound.PlayEngineGoSound (false);
+       		}
        	}
     }// End OnTriggerEnter
 

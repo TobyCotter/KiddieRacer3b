@@ -9,6 +9,7 @@ public class RaceManager : MonoBehaviour {
 	private bool firstTimeThru = true;
 	private MusicManager musicManager;
 	private AudioSource audioSource;
+
 	private FinalFinishText finalFinishText;
 	private Racer[] sortedRacerArray;
 	private bool firstTimeThruThis = true;
@@ -24,23 +25,11 @@ public class RaceManager : MonoBehaviour {
 		audioSource = GetComponent<AudioSource>();
 		finalFinishImage = GameObject.FindObjectOfType<FinalFinishImage>();
 		finalFinishText = GameObject.FindObjectOfType<FinalFinishText>();
-	}//End
+	}
 
 
 	void Update (){
-		if(FinishLine.FINISH_POSITION == 4 && firstTimeThruThis == true){//TODO change this to 5 as right now we only have 3 players racing
-			//**** All 4 players have crossed the finish line @ this point ****
-
-			//Get player4's finish position (and the total finish order)
-			GetFinalFinishOrder ();
-
-			//Display finish position image/text for player 4
-			finalFinishText.DisplayFinishText(youFinishedThisPlace);
-			finalFinishImage.DisplayFinishImage(youFinishedThisPlace);
-
-			//Only pass thru this once
-			firstTimeThruThis = false;							//We only want to report the finish order once
-		}//End if
+		HandlePostRaceEvents();	
 	}//End
 	
 
@@ -49,6 +38,31 @@ public class RaceManager : MonoBehaviour {
 			WaitToStartRace ();									// Starts race after a predetermined amount of time
 		}
 	}//End
+
+
+	void HandlePostRaceEvents ()
+	{
+		if(FinishLine.FINISH_POSITION == 4 && firstTimeThruThis == true){//TODO change this to 5 as right now we only have 3 players racing
+			//**** All 4 players have crossed the finish line @ this point ****
+
+			//Get player4's finish position (and the total finish order)
+			GetFinalFinishOrder ();
+
+			//Display finish position image/text for player 4
+			finalFinishText.DisplayFinishText (youFinishedThisPlace);
+			finalFinishImage.DisplayFinishImage (youFinishedThisPlace);
+			//TODO call musicmanager to play marvelous (win), laughing wizard (lose)
+			//then invoke winner/loser background music
+
+
+			//Stop background music
+			musicManager.StopPlayingBackgroundMusic ();
+
+			//Only pass thru this once
+			firstTimeThruThis = false;
+			//We only want to report the finish order once  //DELETEME
+		}//End if
+	}
 
 
 	public int FindPlayerFourRacePosition (){

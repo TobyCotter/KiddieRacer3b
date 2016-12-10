@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour {
 	private int clipNumber;
 
 
+
 	void Start () {
 		audioSource = GetComponent<AudioSource>();
 		myRandom = Random.Range(0.6f, 2.70f);						// We want the middle track to be chosen more often than the other 2 which is why the numbers are not 0 and 2.99
@@ -18,7 +19,6 @@ public class MusicManager : MonoBehaviour {
 		audioSource.clip = backgroundMusic[clipNumber];
 		audioSource.loop = true;
 		audioSource.volume = backgroundMusicVolume;
-		//PlayBackgroundMusic();
 	}
 
 
@@ -27,8 +27,13 @@ public class MusicManager : MonoBehaviour {
 	}
 
 
-	public void PlayBackgroundMusic (){
+	public void PlayBackgroundMusic(){
 		audioSource.Play();
 	}// End PlayBackgroundMusic
 
-}
+
+	public void StopPlayingBackgroundMusic (){
+		audioSource.Stop ();
+	}//End
+
+}//End Class
