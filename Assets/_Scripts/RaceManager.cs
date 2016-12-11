@@ -9,7 +9,7 @@ public class RaceManager : MonoBehaviour {
 	private bool firstTimeThru = true;
 	private MusicManager musicManager;
 	private AudioSource audioSource;
-
+	private WinSounds winSounds;
 	private FinalFinishText finalFinishText;
 	private Racer[] sortedRacerArray;
 	private bool firstTimeThruThis = true;
@@ -25,7 +25,8 @@ public class RaceManager : MonoBehaviour {
 		audioSource = GetComponent<AudioSource>();
 		finalFinishImage = GameObject.FindObjectOfType<FinalFinishImage>();
 		finalFinishText = GameObject.FindObjectOfType<FinalFinishText>();
-	}
+		winSounds = GameObject.FindObjectOfType<WinSounds>();
+	}//End
 
 
 	void Update (){
@@ -51,6 +52,13 @@ public class RaceManager : MonoBehaviour {
 			//Display finish position image/text for player 4
 			finalFinishText.DisplayFinishText (youFinishedThisPlace);
 			finalFinishImage.DisplayFinishImage (youFinishedThisPlace);
+			if(youFinishedThisPlace == 1){
+				winSounds.PlayWinSounds();
+			}else if(youFinishedThisPlace ==2){
+				winSounds.PlaySecondPlaceSound();
+			}else if(youFinishedThisPlace >= 3){
+				winSounds.PlayLoseSound();
+			}
 			//TODO call musicmanager to play marvelous (win), laughing wizard (lose)
 			//then invoke winner/loser background music
 

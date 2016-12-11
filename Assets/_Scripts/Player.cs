@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
 	private CollisionHandler collisionHandler;
 	private LeftTouchInput leftTouchInput;
 	private RightTouchInput rightTouchInput;
+	private SpeedProgessBar speedProgressBar;
 	private bool rayCastLeftResult;
 	private bool OkToMoveLeft;
 	private bool OkToMoveRight;
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour {
 	[Tooltip("Speed the player changes lanes")]
 	[Range(0f,30.0f)]
 	public float LaneLerpSpeed;
-	public float zGear = 1.1f;							// Which gear the player car is in, 1.1 = 1st, 1.2 = 2nd
+	public float zGear = 1.1f;								// Which gear the player car is in, 1.1 = 1st, 1.2 = 2nd
 
 
 	void Start () {
@@ -46,7 +47,8 @@ public class Player : MonoBehaviour {
 		engineAudioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		collisionHandler = GetComponent<CollisionHandler>();
-		desiredXPos = transform.position.x;				//desiredXPos isn't assigned a value until we push left or right, need default value
+		speedProgressBar = GameObject.FindObjectOfType<SpeedProgessBar>();
+		desiredXPos = transform.position.x;					//desiredXPos isn't assigned a value until we push left or right, need default value
 	}//End Start
 	
 
@@ -85,15 +87,19 @@ public class Player : MonoBehaviour {
 	private void ChooseGear (){
 		if(totalTimeSinceCollision < 2){
 				zGear = 1.0f;
+				speedProgressBar.AdjustSpeedBar(1);					//Sets the speed bar to 1
 				engineSoundPitch = 0.4f;
 			}else if(totalTimeSinceCollision > 2 && totalTimeSinceCollision < 4){				
 				zGear = 1.1f;
+				speedProgressBar.AdjustSpeedBar(2);	
 				engineSoundPitch = 0.5f;
 			}else if(totalTimeSinceCollision > 4 && totalTimeSinceCollision < 6){
 				zGear = 1.2f;
+				speedProgressBar.AdjustSpeedBar(3);	
 				engineSoundPitch = 0.6f;
 			}else if(totalTimeSinceCollision > 6){	
 				zGear = 1.3f;
+				speedProgressBar.AdjustSpeedBar(4);	
 				engineSoundPitch = 0.7f;
 			}
 

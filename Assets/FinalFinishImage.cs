@@ -43,19 +43,15 @@ public class FinalFinishImage : MonoBehaviour {
 
 		switch(finishPos){
 				case 1:
-					Debug.Log("You finished in 1st!");
 					imageComponent.sprite = firstPlace;
 					break;
 				case 2:
-					Debug.Log("You finished in 2nd!");
 					imageComponent.sprite = secondPlace;
 					break;
 				case 3:
-					Debug.Log("You finished in 3rd!");
 					imageComponent.sprite = thirdPlace;
 					break;
 				case 4:
-					Debug.Log("You finished in 4th!");
 					imageComponent.sprite = fourthPlace;
 					break;
 				default:

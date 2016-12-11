@@ -35,7 +35,11 @@ public class CollisionHandler : MonoBehaviour {
 	
 
 	void Update () {
-		totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
+		if(!raceManager.raceHasBegun){
+			totalTimeSinceCollision = 0;
+		}else{
+			totalTimeSinceCollision = totalTimeSinceCollision + Time.deltaTime;
+		}
 	}//End
 
 
