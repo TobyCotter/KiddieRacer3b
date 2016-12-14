@@ -59,9 +59,6 @@ public class RaceManager : MonoBehaviour {
 			}else if(youFinishedThisPlace >= 3){
 				winSounds.PlayLoseSound();
 			}
-			//TODO call musicmanager to play marvelous (win), laughing wizard (lose)
-			//then invoke winner/loser background music
-
 
 			//Stop background music
 			musicManager.StopPlayingBackgroundMusic ();

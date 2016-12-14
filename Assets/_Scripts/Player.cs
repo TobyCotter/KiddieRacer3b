@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
 			totalTimeSinceCollision = collisionHandler.GetTotalTimeSinceCollision();	//Returns time since collision
 			ChooseGear();
 			DetectArrowKey();	//TODO delete later as this is only used for windows
-			DisableTurnIfNeighborExists();		
+			DisableTurnIfNeighborExists();
 			MovePlayerZAxis();
 			MovePlayerXAxis();
 			anim.SetBool("isRacingBool", true);				// Starts moving tires and vertical bounce is less

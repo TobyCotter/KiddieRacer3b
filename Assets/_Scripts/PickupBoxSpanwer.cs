@@ -36,6 +36,6 @@ public class PickupBoxSpanwer : MonoBehaviour {
 	void OnTriggerEnter(){
 		GameObject.Destroy(showThisGiftBox);
 		Invoke("DisableBox", 0.1f);
-		Invoke("InstantiateBox", 3.0f);//TODO change this back to .8f
+		Invoke("InstantiateBox", 0.9f);//TODO need to play test this number
 	}//End
 }
