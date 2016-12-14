@@ -8,7 +8,6 @@ public class CollisionHandler : MonoBehaviour {
 	private float totalTimeSinceCollision;
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
-	private PickupBoxDisplayImage pickupBoxDisplayImage;
 	private PlayerEngineSound playerEngineSound;
 	public int ourFinishPos;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
@@ -19,7 +18,6 @@ public class CollisionHandler : MonoBehaviour {
 	void Start () {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
-		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
 		playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
 
 		if(this.CompareTag("Player1")){
@@ -86,12 +84,13 @@ public class CollisionHandler : MonoBehaviour {
 
     private void HitPickupBox(){
     	int fakeRacePosVal;
+
     	//Play pickupBox sound, determine what type of pickupbox we get, set image on canvas
     	if(user){																			//CollisionHandler is used on both the user and dummy cars, we don't want to change the image and other things on the dummy cars
 			BroadcastMessage("PlayPickupBoxSound");
 			player4RacePos = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
 			pickupBoxType = pickupBoxManager.DecideWhichPickupBox(player4RacePos);			// pickupBoxType is a static that holds the value of our current pickupbox
-			pickupBoxDisplayImage.SetPickupBoxImage((int)pickupBoxType);	
+			pickupBoxManager.SetPickupBoxImage((int)pickupBoxType);	
 		}else{
 			//Used for dummy racers
 			player4RacePos = raceManager.FindPlayerFourRacePosition();						// Our raceposition is used to determine what box we get
@@ -103,4 +102,4 @@ public class CollisionHandler : MonoBehaviour {
 			pickupBoxType = pickupBoxManager.DecideWhichPickupBox(fakeRacePosVal);			// pickupBoxType is a static that holds the value of our current pickupbox
 		}									
     }// End
-}
+}//End class

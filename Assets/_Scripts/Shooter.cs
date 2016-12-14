@@ -9,7 +9,7 @@ public class Shooter : MonoBehaviour {
 	private GameObject bulletParent;
 	private GameObject coneParent;
 	private GameObject afterBurnerParticle;
-	private PickupBoxDisplayImage pickupBoxDisplayImage;
+	private PickupBoxManager pickupBoxManager;
 	private CenterFireTouchInput centerFireTouchInput;
 	public Rigidbody bulletPrefab;
 	public Rigidbody conePrefab;
@@ -23,7 +23,7 @@ public class Shooter : MonoBehaviour {
 	
 	void Start () {
 		collisionHandler = GetComponent<CollisionHandler>();
-		pickupBoxDisplayImage = GameObject.FindObjectOfType<PickupBoxDisplayImage>();
+		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		centerFireTouchInput = GameObject.FindObjectOfType<CenterFireTouchInput>();
 		afterBurnerParticle = GameObject.FindGameObjectWithTag("AfterBurner");
 		afterBurnerParticle.SetActive(false);
@@ -122,7 +122,8 @@ public class Shooter : MonoBehaviour {
 
 
 	private void ResetPickupBox(){
-		collisionHandler.pickupBoxType = PickupBoxManager.pickupBoxKind.EMPTY;	// This empties the variable
-		pickupBoxDisplayImage.SetPickupBoxImage((int)collisionHandler.pickupBoxType);	//TODO change 3 to variable									// This clears the image from our canvas
+		//Clear the variable and set the pickupBox image to transparent
+		collisionHandler.pickupBoxType = PickupBoxManager.pickupBoxKind.EMPTY;			//This sets the variable to empty
+		pickupBoxManager.SetPickupBoxImage((int)collisionHandler.pickupBoxType);		// This clears the image from our canvas
 	}// End
 }

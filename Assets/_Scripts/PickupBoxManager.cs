@@ -1,15 +1,21 @@
-﻿// This script only determines which pickup box we receive (it is somewhat random)
-
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PickupBoxManager : MonoBehaviour {
 	// Variables
 	public enum pickupBoxKind {CONE, PROJECTILE, SPEED, EMPTY};
+	private Image imageComponent;
+	public Sprite cone;
+	public Sprite lightning;
+	public Sprite projectile;			//public domain pixabay
+	public Sprite none;
+	public bool playTestBullets = false;
 
 
 	void Start () {
-	
+		imageComponent = GetComponent<Image>();
+		imageComponent.sprite = none;						//Sets imagecomponent to none at start
 	}
 	
 
@@ -42,6 +48,12 @@ public class PickupBoxManager : MonoBehaviour {
 			Debug.LogError("We should not have made it here");
 		}
 
+		if(playTestBullets){
+			//We will always get a bullet from a pickupbox if the bool playTestBullets is set to true
+			Debug.Log("We entered true playTestbullets");
+			return pickupBoxKind.PROJECTILE;
+		}
+
 		if(chance100 >= chanceOfProj){
 			return pickupBoxKind.PROJECTILE;
 		}else if(chance100 <= chanceOfCone){
@@ -50,4 +62,18 @@ public class PickupBoxManager : MonoBehaviour {
 			return pickupBoxKind.SPEED;
 		}
 	}// End
-}
+
+
+	public void SetPickupBoxImage (int pickupBoxNum){
+		// Sets the canvas image to cone, projectile, speed, or empty
+		if(pickupBoxNum == 0){
+			imageComponent.sprite = cone;
+		}else if(pickupBoxNum == 1){
+			imageComponent.sprite = projectile;
+		}else if(pickupBoxNum == 2){
+			imageComponent.sprite = lightning;
+		}else{
+			imageComponent.sprite = none;
+		}
+	}// End
+}//End class
