@@ -8,7 +8,6 @@ public class Shooter : MonoBehaviour {
 	private float speedBurstTime = 2.0f;
 	private GameObject bulletParent;
 	private GameObject coneParent;
-	private GameObject afterBurnerParticle;
 	private PickupBoxManager pickupBoxManager;
 	private CenterFireTouchInput centerFireTouchInput;
 	public Rigidbody bulletPrefab;
@@ -25,8 +24,7 @@ public class Shooter : MonoBehaviour {
 		collisionHandler = GetComponent<CollisionHandler>();
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		centerFireTouchInput = GameObject.FindObjectOfType<CenterFireTouchInput>();
-		afterBurnerParticle = GameObject.FindGameObjectWithTag("AfterBurner");
-		afterBurnerParticle.SetActive(false);
+		BroadcastMessage("DeactivateAfterburner");
 		speedBurst = 1.0f;
 
 		// Creates Bullets parent object if it doesn't exist
@@ -79,8 +77,9 @@ public class Shooter : MonoBehaviour {
 
 
 	private void ActivateSpeedBurst(){
-		speedBurst = 1.6f;		
-		afterBurnerParticle.SetActive(true);							//Enables afterburner particle glow									
+		speedBurst = 1.6f;												//This is the value to multiply our speed by
+		//afterBurnerParticle.SetActive(true);							//Enables afterburner particle glow									
+		BroadcastMessage("ActivateAfterburner");						//Located in a script attached to the rearGun.  We do this because there are multiple afterburners in this project.  Otherwise we would need to loop thru each one until we find our afterburner.
 		Invoke("DisableSpeedBurst", speedBurstTime);					//Will reset speed burst back to normal speed
 		//Play rocket speed sound
 		BroadcastMessage("PlayRocketSound");							//Located on RocketSound.cs
@@ -89,8 +88,9 @@ public class Shooter : MonoBehaviour {
 
 	private void DisableSpeedBurst(){
 		// Reset speed burst multiplier to 1.0f after 2 seconds
-		speedBurst = 1.0f;
-		afterBurnerParticle.SetActive(false);
+		speedBurst = 1.0f;												//This is the value to multiply our speed by
+		//afterBurnerParticle.SetActive(false);
+		BroadcastMessage("DeactivateAfterburner");
 	}// End
 
 

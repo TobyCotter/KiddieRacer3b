@@ -56,16 +56,10 @@ public class Dummy : MonoBehaviour {
 	}// End MovePlayerForward
 
 
-	void OnTriggerEnter(Collider collider) {   
-		
-	  
-//		if(collider.GetComponent<Dummy>()){    								//If we collided with Dummy player, reset the dummy collision timer       
-//        	collider.GetComponent<Dummy>().ResetCollisionTimer();
-//        }
-    }// End OnTriggerEnter
-
-
 	public void ResetCollisionTimer (){						// Called from other script to reset this timer to slow down car
 		totalTimeSinceCollision = 0;
 	}// End ResetCollisionTimer
-}
+
+
+
+}//End class

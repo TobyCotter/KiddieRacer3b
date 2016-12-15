@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CollisionHandler : MonoBehaviour {
 	// Variables
-	private int iAmThisPlayer = 0;
 	private int player4RacePos;
 	private float totalTimeSinceCollision;
 	private PickupBoxManager pickupBoxManager;
@@ -13,6 +12,7 @@ public class CollisionHandler : MonoBehaviour {
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
 	public bool user;
 	public bool playerCrossedFinishLine = false;
+	public int iAmThisPlayer = 0;  
 
 	
 	void Start () {
@@ -20,6 +20,7 @@ public class CollisionHandler : MonoBehaviour {
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
 
+		//The following is used when we cross the finish line, we can report what player we are
 		if(this.CompareTag("Player1")){
 			iAmThisPlayer = 1;
 		}else if(this.CompareTag("Player2")){
@@ -47,6 +48,19 @@ public class CollisionHandler : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider collider) {  
+		//TODO delete the following--we are no longer using lane colliders
+		/*
+		//Collides with LaneCollider
+		if(collider.CompareTag("Lane1")){
+			thisCarslanePos = 1;
+		}else if(collider.CompareTag("Lane2")){
+			thisCarslanePos = 2;
+		}else if(collider.CompareTag("Lane3")){
+			thisCarslanePos = 3;
+		}else if(collider.CompareTag("Lane4")){
+			thisCarslanePos = 4;
+		}*/
+
         // Collides with pickupBox
         if(collider.CompareTag("PickupBox")){
         	HitPickupBox();

@@ -11,6 +11,17 @@ public class Player : MonoBehaviour {
 	private bool rightArrow = false;
 	private int myLanePos;
 	private float engineSoundPitch;
+	private bool OkToMoveLeft;
+	private bool OkToMoveRight;
+	private float finishLineLerpSpeed = 1.0f;
+	private float sourceSpeedFactor = 1.0f;
+	[Tooltip("Speed player moves in Z")]
+	[Range(0f,100f)]
+	public float playerSpeedOffset;
+	[Tooltip("Speed the player changes lanes")]
+	[Range(0f,30.0f)]
+	public float LaneLerpSpeed;
+	public float zGear = 1.1f;								// Which gear the player car is in, 1.1 = 1st, 1.2 = 2nd
 	private RaceManager raceManager;
 	private AudioSource engineAudioSource;
 	private Shooter shooter;
@@ -21,29 +32,18 @@ public class Player : MonoBehaviour {
 	private LeftTouchInput leftTouchInput;
 	private RightTouchInput rightTouchInput;
 	private SpeedProgessBar speedProgressBar;
-	private bool rayCastLeftResult;
-	private bool OkToMoveLeft;
-	private bool OkToMoveRight;
-	private float finishLineLerpSpeed = 1.0f;
-	private float sourceSpeedFactor = 1.0f;
-
-	[Tooltip("Speed player moves in Z")]
-	[Range(0f,100f)]
-	public float playerSpeedOffset;
-	[Tooltip("Speed the player changes lanes")]
-	[Range(0f,30.0f)]
-	public float LaneLerpSpeed;
-	public float zGear = 1.1f;								// Which gear the player car is in, 1.1 = 1st, 1.2 = 2nd
+	private CarPositionManager carPositionManager;
 
 
 	void Start () {
 		DetermineLanePosition();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
-		shooter = GameObject.FindObjectOfType<Shooter>();
+		shooter = GetComponent<Shooter>();
 		player4RightSideCollider = GameObject.FindObjectOfType<Player4RightSideCollider>();
 		player4LeftSideCollider = GameObject.FindObjectOfType<Player4LeftSideCollider>();
 		leftTouchInput = GameObject.FindObjectOfType<LeftTouchInput>();
 		rightTouchInput = GameObject.FindObjectOfType<RightTouchInput>();
+		carPositionManager = GameObject.FindObjectOfType<CarPositionManager>();
 		engineAudioSource = GetComponent<AudioSource>();
 		anim = GetComponent<Animator>();
 		collisionHandler = GetComponent<CollisionHandler>();
@@ -60,12 +60,13 @@ public class Player : MonoBehaviour {
 			DisableTurnIfNeighborExists();
 			MovePlayerZAxis();
 			MovePlayerXAxis();
+			ReportOurPosition();
 			anim.SetBool("isRacingBool", true);				// Starts moving tires and vertical bounce is less
 		}
 	}// End Update
 
 
-	public int DetermineLanePosition (){
+	public void DetermineLanePosition (){
 		//*** Finds x position of player and assigns lane # ***
 		float xPos;
 		xPos = transform.position.x;
@@ -80,7 +81,7 @@ public class Player : MonoBehaviour {
 			myLanePos = 1;
 		}
 
-		return myLanePos;
+		//return myLanePos;
 	}// End DetermineLanePosition
 
 
@@ -188,5 +189,15 @@ public class Player : MonoBehaviour {
 		desiredXPos = Mathf.Lerp(transform.position.x, lane_XValue[myLanePos-1], (LaneLerpSpeed * Time.deltaTime));			
 		transform.position = new Vector3(desiredXPos, transform.position.y, transform.position.z);						//Move our car in the x axis only
 	}//End
+
+
+	private void ReportOurPosition(){
+		int iAmThisPlayer;
+
+		iAmThisPlayer = collisionHandler.iAmThisPlayer;
+		if(myLanePos != 0){											//We don't want to report our position before we have gotten our position
+			carPositionManager.ReportMyLanePos(iAmThisPlayer, myLanePos);
+		}
+	}
 }//End Class
 
