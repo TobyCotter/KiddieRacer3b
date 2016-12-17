@@ -43,7 +43,7 @@ public class RaceManager : MonoBehaviour {
 
 	void HandlePostRaceEvents ()
 	{
-		if(FinishLine.FINISH_POSITION == 4 && firstTimeThruThis == true){//TODO change this to 5 as right now we only have 3 players racing
+		if(FinishLine.FINISH_POSITION == 5 && firstTimeThruThis == true){
 			//**** All 4 players have crossed the finish line @ this point ****
 
 			//Get player4's finish position (and the total finish order)
@@ -64,8 +64,7 @@ public class RaceManager : MonoBehaviour {
 			musicManager.StopPlayingBackgroundMusic ();
 
 			//Only pass thru this once
-			firstTimeThruThis = false;
-			//We only want to report the finish order once  //DELETEME
+			firstTimeThruThis = false;		//Only report the finish order once
 		}//End if
 	}
 

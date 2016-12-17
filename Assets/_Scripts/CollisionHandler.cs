@@ -18,7 +18,9 @@ public class CollisionHandler : MonoBehaviour {
 	void Start () {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
-		playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
+		if(user){
+			playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
+		}
 
 		//The following is used when we cross the finish line, we can report what player we are
 		if(this.CompareTag("Player1")){
@@ -48,19 +50,6 @@ public class CollisionHandler : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider collider) {  
-		//TODO delete the following--we are no longer using lane colliders
-		/*
-		//Collides with LaneCollider
-		if(collider.CompareTag("Lane1")){
-			thisCarslanePos = 1;
-		}else if(collider.CompareTag("Lane2")){
-			thisCarslanePos = 2;
-		}else if(collider.CompareTag("Lane3")){
-			thisCarslanePos = 3;
-		}else if(collider.CompareTag("Lane4")){
-			thisCarslanePos = 4;
-		}*/
-
         // Collides with pickupBox
         if(collider.CompareTag("PickupBox")){
         	HitPickupBox();
@@ -78,9 +67,9 @@ public class CollisionHandler : MonoBehaviour {
        	if(collider.CompareTag("Bullet")){
        		totalTimeSinceCollision = 0;
        		if(user){
-       			BroadcastMessage("PlayBulletHitSound");
+       			BroadcastMessage("PlayBulletHitSound");						
        		}
-       		Destroy(collider.gameObject);									//Destroy bullet
+       		Destroy(collider.gameObject, 0.05f);									//Destroy bullet
        	}
 
        	//Hit FinishLine

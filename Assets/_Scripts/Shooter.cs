@@ -77,8 +77,7 @@ public class Shooter : MonoBehaviour {
 
 
 	private void ActivateSpeedBurst(){
-		speedBurst = 1.6f;												//This is the value to multiply our speed by
-		//afterBurnerParticle.SetActive(true);							//Enables afterburner particle glow									
+		speedBurst = 1.6f;												//This is the value to multiply our speed by								
 		BroadcastMessage("ActivateAfterburner");						//Located in a script attached to the rearGun.  We do this because there are multiple afterburners in this project.  Otherwise we would need to loop thru each one until we find our afterburner.
 		Invoke("DisableSpeedBurst", speedBurstTime);					//Will reset speed burst back to normal speed
 		//Play rocket speed sound
@@ -87,9 +86,7 @@ public class Shooter : MonoBehaviour {
 
 
 	private void DisableSpeedBurst(){
-		// Reset speed burst multiplier to 1.0f after 2 seconds
 		speedBurst = 1.0f;												//This is the value to multiply our speed by
-		//afterBurnerParticle.SetActive(false);
 		BroadcastMessage("DeactivateAfterburner");
 	}// End
 

@@ -7,7 +7,7 @@ public class RearAfterBurner : MonoBehaviour {
 	private ParticleSystem particleSys;
 
 	
-	void Start () {
+	void Awake () {
 		particleSys = GetComponent<ParticleSystem>();
 	}//End
 

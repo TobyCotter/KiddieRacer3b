@@ -50,7 +50,6 @@ public class PickupBoxManager : MonoBehaviour {
 
 		if(playTestBullets){
 			//We will always get a bullet from a pickupbox if the bool playTestBullets is set to true
-			Debug.Log("We entered true playTestbullets");
 			return pickupBoxKind.PROJECTILE;
 		}
 

@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
 			totalTimeSinceCollision = collisionHandler.GetTotalTimeSinceCollision();	//Returns time since collision
 			ChooseGear();
 			DetectArrowKey();	//TODO delete later as this is only used for windows
-			DisableTurnIfNeighborExists();
+			//DisableTurnIfNeighborExists();				//Disabled because otherwise we would have all the AI cars on top of us and we'd be stuck
 			MovePlayerZAxis();
 			MovePlayerXAxis();
 			ReportOurPosition();

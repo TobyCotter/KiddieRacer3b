@@ -7,7 +7,7 @@ using System.Collections;
 
 public class CarPositionManager : MonoBehaviour {
 	//Variables
-	public int[] allPlayersLanePos = new int[4];							//Holds lane position of all 4 players
+	private int[] allPlayersLanePos = new int[4];							//Holds lane position of all 4 players
 	
 	void Start () {
 	
@@ -22,4 +22,10 @@ public class CarPositionManager : MonoBehaviour {
 	public void ReportMyLanePos(int playerIdentity, int playerLanePos){
 		allPlayersLanePos[playerIdentity-1] = playerLanePos;				//Ex:  playerIdentity = 4, playerLanePos = 2...array playerLanePos[3] will now = 2
 	}//End
+
+
+	public int[] ReturnEveryonesLanePos(){
+		return allPlayersLanePos;
+	}
+
 }//End Class
