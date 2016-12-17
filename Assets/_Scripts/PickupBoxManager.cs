@@ -48,9 +48,9 @@ public class PickupBoxManager : MonoBehaviour {
 			Debug.LogError("We should not have made it here");
 		}
 
+		//*** Play testing:  this gives you the same pickupbox if you want to test just cones, projectiles, or speed
 		if(playTestBullets){
-			//We will always get a bullet from a pickupbox if the bool playTestBullets is set to true
-			return pickupBoxKind.PROJECTILE;
+			return pickupBoxKind.SPEED;
 		}
 
 		if(chance100 >= chanceOfProj){
