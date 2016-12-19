@@ -27,8 +27,10 @@ public class FinalFinishImage : MonoBehaviour {
 	private void ShowImageAlpha(bool showImage){
 		if(!showImage){
 			imageComponent.color = clearColor;
+			Debug.Log("Show clear color: " + clearColor);
 		}else{
 			imageComponent.color = showColor;
+			Debug.Log("Show show color: " + showColor);
 		}
 	}//End
 	
