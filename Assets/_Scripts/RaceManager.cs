@@ -14,6 +14,7 @@ public class RaceManager : MonoBehaviour {
 	private FinalFinishText finalFinishText;
 	private Racer[] sortedRacerArray;
 	private PlayAgainManager playAgainManager;
+	private QuitButtonManager quitButtonManager;
 	private bool firstTimeThruThis = true;
 	private FinalFinishImage finalFinishImage;
 	public int[] finalRaceOrder = new int[4];
@@ -25,6 +26,7 @@ public class RaceManager : MonoBehaviour {
 	void Start () {
 		musicManager = GameObject.FindObjectOfType<MusicManager>();
 		playAgainManager = GameObject.FindObjectOfType<PlayAgainManager>();
+		quitButtonManager = GameObject.FindObjectOfType<QuitButtonManager>();
 		audioSource = GetComponent<AudioSource>();
 		finalFinishImage = GameObject.FindObjectOfType<FinalFinishImage>();
 		finalFinishText = GameObject.FindObjectOfType<FinalFinishText>();
@@ -69,6 +71,7 @@ public class RaceManager : MonoBehaviour {
 
 			//Enable Play Again button
 			playAgainManager.EnablePlayAgainButton();
+			quitButtonManager.EnableQuitButton();
 
 			//Dim background so UI canvas shows up better
 			directionalLight.DimTheLights();
@@ -76,7 +79,7 @@ public class RaceManager : MonoBehaviour {
 			//Only pass thru this once
 			firstTimeThruThis = false;		//Only report the finish order once
 		}//End if
-	}
+	}//End
 
 
 	public int FindPlayerFourRacePosition (){

@@ -1,25 +1,30 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public class PlayAgainManager : MonoBehaviour {
 	//Variables
 	private PlayAgainButton playAgainButton;
+	private Image imageButton;
+	private Color showMeColor;
+	private Color clearColor;
 
 
 	void Start () {
 		playAgainButton = GameObject.FindObjectOfType<PlayAgainButton>();
+		imageButton = GetComponent<Image>();
+		showMeColor = imageButton.color;
+		clearColor = showMeColor;
+		clearColor.a = 0;							//Sets clearColor to transparent
 		DisablePlayAgainButton();					//Disable the play again button at race start
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 
 	public void EnablePlayAgainButton(){
 		playAgainButton.gameObject.SetActive(true);
+		imageButton.color = showMeColor;
 		Debug.Log("We enabled the play again button");
 	}//End
 
@@ -27,12 +32,13 @@ public class PlayAgainManager : MonoBehaviour {
 	public void DisablePlayAgainButton(){
 		Debug.Log("We disabled the play again button");
 		playAgainButton.gameObject.SetActive(false);
+		imageButton.color = clearColor;
 	}//End
 
 
 	public void PlayGameAgain(){
 		Debug.Log("Play game again");
 		FinishLine.FINISH_POSITION = 1;					//This is a static so when reloading the scene it doesn't get reset
-		SceneManager.LoadScene(0);						//Loads the original scene
+		SceneManager.LoadScene(1);						//Loads the original scene
 	}//End
 }//End class
