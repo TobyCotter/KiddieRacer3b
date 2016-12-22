@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class CollisionHandler : MonoBehaviour {
 	// Variables
 	private int player4RacePos;
@@ -8,6 +9,7 @@ public class CollisionHandler : MonoBehaviour {
 	private PickupBoxManager pickupBoxManager;
 	private RaceManager raceManager;
 	private PlayerEngineSound playerEngineSound;
+	private UnityAdsManager unityAdsManager;
 	public int ourFinishPos;
 	public PickupBoxManager.pickupBoxKind pickupBoxType;
 	public bool user;
@@ -17,9 +19,20 @@ public class CollisionHandler : MonoBehaviour {
 	
 	void Start () {
 		pickupBoxManager = GameObject.FindObjectOfType<PickupBoxManager>();
+		unityAdsManager = GameObject.FindObjectOfType<UnityAdsManager>();
 		raceManager = GameObject.FindObjectOfType<RaceManager>();
 		if(user){
 			playerEngineSound = GameObject.FindObjectOfType<PlayerEngineSound>();	//Used to stop engine sound at race finish
+			//Enable speed burst if user has gotten coins from watching video
+			if(UnityAdsManager.PLAYER_COINS > 0){
+				//Enable speed burst, decrement coin count, set pickupbox image to speed burst
+				pickupBoxType = PickupBoxManager.pickupBoxKind.SPEED;
+				unityAdsManager.DecrementPlayerCoinCount();
+				pickupBoxManager.SetPickupBoxImage(2);								//Set to speed image
+			}else{ 
+				pickupBoxType = PickupBoxManager.pickupBoxKind.EMPTY;
+				pickupBoxManager.SetPickupBoxImage(3);								//Set image to empty
+			}
 		}
 
 		//The following is used when we cross the finish line, we can report what player we are

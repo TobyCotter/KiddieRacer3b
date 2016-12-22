@@ -12,6 +12,7 @@ public class RaceManager : MonoBehaviour {
 	private AudioSource audioSource;
 	private WinSounds winSounds;
 	private FinalFinishText finalFinishText;
+	private UnityAdsManager unityAdsManager;
 	private Racer[] sortedRacerArray;
 	private PlayAgainManager playAgainManager;
 	private QuitButtonManager quitButtonManager;
@@ -32,6 +33,7 @@ public class RaceManager : MonoBehaviour {
 		finalFinishText = GameObject.FindObjectOfType<FinalFinishText>();
 		winSounds = GameObject.FindObjectOfType<WinSounds>();
 		directionalLight = GameObject.FindObjectOfType<DirectionalLight>();
+		unityAdsManager = GameObject.FindObjectOfType<UnityAdsManager>();
 	}//End
 
 
@@ -50,6 +52,7 @@ public class RaceManager : MonoBehaviour {
 	void HandlePostRaceEvents ()
 	{
 		if(FinishLine.FINISH_POSITION == 5 && firstTimeThruThis == true){
+			Debug.Log("Entered post race events");
 			//**** All 4 players have crossed the finish line @ this point ****
 
 			//Get player4's finish position (and the total finish order)
@@ -69,9 +72,10 @@ public class RaceManager : MonoBehaviour {
 			//Stop background music
 			musicManager.StopPlayingBackgroundMusic ();
 
-			//Enable Play Again button
+			//Enable buttons
 			playAgainManager.EnablePlayAgainButton();
 			quitButtonManager.EnableQuitButton();
+			unityAdsManager.EnableGetSpeedButton();
 
 			//Dim background so UI canvas shows up better
 			directionalLight.DimTheLights();

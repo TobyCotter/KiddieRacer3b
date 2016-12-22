@@ -6,14 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayAgainManager : MonoBehaviour {
 	//Variables
-	private PlayAgainButton playAgainButton;
+	//private PlayAgainButton playAgainButton;
+	public GameObject playAgainButton;
 	private Image imageButton;
 	private Color showMeColor;
 	private Color clearColor;
 
 
-	void Start () {
-		playAgainButton = GameObject.FindObjectOfType<PlayAgainButton>();
+	void Awake () {
+		//playAgainButton = GameObject.FindObjectOfType<PlayAgainButton>();
 		imageButton = GetComponent<Image>();
 		showMeColor = imageButton.color;
 		clearColor = showMeColor;
@@ -30,7 +31,7 @@ public class PlayAgainManager : MonoBehaviour {
 
 
 	public void DisablePlayAgainButton(){
-		Debug.Log("We disabled the play again button");
+		
 		playAgainButton.gameObject.SetActive(false);
 		imageButton.color = clearColor;
 	}//End

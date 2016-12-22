@@ -26,14 +26,12 @@ public class QuitButtonManager : MonoBehaviour {
 
 
 	public void DisableQuitButton(){
-		Debug.Log("We disabled quit button");
 		quitButton.gameObject.SetActive(false);
 		imageButton.color = clearColor;
 	}//End
 
 
 	public void QuitGame(){
-		Debug.Log("Quit button pressed");
 		Application.Quit();
 	}//End
 }//End class

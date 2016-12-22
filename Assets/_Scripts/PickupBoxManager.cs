@@ -13,9 +13,9 @@ public class PickupBoxManager : MonoBehaviour {
 	public bool playTestBullets = false;
 
 
-	void Start () {
+	void Awake () {
 		imageComponent = GetComponent<Image>();
-		imageComponent.sprite = none;						//Sets imagecomponent to none at start
+		//imageComponent.sprite = none;						//Sets imagecomponent to none at start
 	}
 	
 
