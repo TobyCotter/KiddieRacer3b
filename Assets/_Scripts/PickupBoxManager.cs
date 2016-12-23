@@ -50,7 +50,7 @@ public class PickupBoxManager : MonoBehaviour {
 
 		//*** Play testing:  this gives you the same pickupbox if you want to test just cones, projectiles, or speed
 		if(playTestBullets){
-			return pickupBoxKind.SPEED;
+			return pickupBoxKind.PROJECTILE;
 		}
 
 		if(chance100 >= chanceOfProj){

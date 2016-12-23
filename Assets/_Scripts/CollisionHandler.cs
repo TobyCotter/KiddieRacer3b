@@ -82,6 +82,7 @@ public class CollisionHandler : MonoBehaviour {
        		if(user){
        			BroadcastMessage("PlayBulletHitSound");						
        		}
+			BroadcastMessage("PlaySparksParticleSystem");
        		Destroy(collider.gameObject, 0.05f);									//Destroy bullet
        	}
 
